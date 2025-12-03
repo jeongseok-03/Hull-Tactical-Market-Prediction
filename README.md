@@ -1,1 +1,34 @@
-Hull Tactical Market Prediction: Quantitative Alpha Research & Strategy Optimization📌 Project OverviewThis project focuses on developing a robust algorithmic trading strategy to predict short-term market returns (S&P 500) and maximize the Volatility-Adjusted Sharpe Ratio.The research pipeline demonstrates a rigorous evolution from traditional machine learning baselines to advanced deep learning meta-labeling and high-performance GPU-accelerated alpha mining. A key emphasis is placed on preventing look-ahead bias and implementing dynamic risk management mechanisms.🚀 Key Experiments & Methodologies1. Baseline Architecture (01_Baseline_LightGBM)Objective: Establish a valid performance benchmark using a gradient boosting framework while ensuring strict data hygiene.Methodology:Model: Implemented LightGBM Regressor for tabular return prediction.Leakage Prevention: Applied Stateless Feature Engineering and Median Imputation based strictly on training distributions to eliminate look-ahead bias.Validation: Utilized a rigorous Hold-out Validation scheme (Temporal Split).2. Robust Stacking & Purged CV (02_Robust_Stacking)Objective: Mitigate overfitting and reduce variance through ensemble methods and rigorous cross-validation.Methodology:Purged TimeSeriesSplit: implemented a "gap" between training and validation folds to prevent information leakage caused by serial correlation in time-series data.Meta-Learning: Orchestrated an ensemble of LightGBM and CatBoost using Ridge Regression as a meta-learner to combine heterogeneous weak learners.3. Hybrid Deep Learning Sequence Modeling (03_Hybrid_DL_Meta_Stacking)Objective: Capture non-linear temporal dependencies and sequential patterns in model residuals.Methodology:Hybrid Architecture: Combined tree-based models (for feature extraction) with Long Short-Term Memory (LSTM) networks (for sequence modeling).Meta-LSTM: Trained a recurrent neural network on Out-of-Fold (OOF) predictions to detect regime shifts.Non-linear Allocation: Applied Sigmoid-based mapping for continuous position sizing (0.0x ~ 2.0x).4. GPU-Accelerated Alpha Mining & Smart Leverage (04_GPU_Alpha_Mining_Strategy)Objective: Discover complex, high-order interaction rules ($A > B > C$) and implement dynamic volatility control.Methodology:HPC / GPU Acceleration: Leveraged PyTorch tensor operations to exhaustively scan millions of feature combinations, achieving 100x speedup over CPU execution.Strict No-Leakage Pipeline: All thresholds (Z-Scores) and scalers were fitted exclusively on training data distributions.Smart Leverage System: Designed a dynamic position sizing algorithm based on Z-Score Confidence and Market Volatility Filters to penalize high-risk environments.🛠 Tech StackCore Language: Python 3.9+Machine Learning: LightGBM, CatBoost, Scikit-learnDeep Learning: TensorFlow (Keras), PyTorch (CUDA for Tensor Operations)Data Engineering: Pandas, NumPy (Vectorized Computing)Visualization: Matplotlib, Seaborn📈 Performance SummaryExperimentStrategyPerformance StatusKey ImprovementExp 01Baseline (LGBM)BenchmarkEstablished valid baselineExp 02CV StackingImproved StabilityReduced variance via Purged CVExp 03Hybrid LSTMEnhanced Pattern RecognitionCaptured sequential dependenciesExp 04GPU Mining + VolControlBest PerformanceMaximized Risk-Adjusted ReturnsNote: While Exp 04 achieved the highest Sharpe Ratio, the primary focus of this research was to construct a logically sound, leakage-free quantitative pipeline suitable for live trading environments.Disclaimer: This repository is for educational and portfolio purposes. The dataset is derived from the Kaggle Hull Tactical Market Prediction competition.
+# Hull Tactical Market Prediction: Quantitative Alpha Research & Strategy Optimization
+
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-GPU%20Acceleration-EE4C2C?logo=pytorch&logoColor=white)
+![Machine Learning](https://img.shields.io/badge/Focus-Machine%20Learning-orange)
+![Quant Finance](https://img.shields.io/badge/Domain-Quant%20Finance-success)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+## 📌 Project Overview
+
+This project focuses on developing a robust **algorithmic trading strategy** to predict short-term market returns (S&P 500) and maximize the **Volatility-Adjusted Sharpe Ratio**.
+
+The research pipeline demonstrates a rigorous evolution from establishing benchmarks with tree-based models to exploring **sequential meta-labeling** and optimizing alphas via **GPU-accelerated rule mining**. A key emphasis is placed on **preventing look-ahead bias** and implementing **dynamic risk management** mechanisms.
+
+---
+
+## 📂 Repository Structure
+
+A modularized structure ensures reproducibility and scalability of the research.
+
+```text
+Hull-Tactical-Market-Prediction/
+├── data/                   # Dataset documentation (data not included)
+├── experiments/            # Sequential research notebooks & scripts
+│   ├── 01_Baseline_LightGBM/
+│   ├── 02_Robust_Stacking/
+│   ├── 03_Hybrid_DL_Meta_Stacking/
+│   └── 04_GPU_Alpha_Mining/
+├── src/                    # Core source code (Refactored modules)
+│   ├── features.py         # Leakage-free feature engineering
+│   ├── rules.py            # GPU-accelerated rule mining engine
+│   └── metrics.py          # Official evaluation metric implementation
+├── requirements.txt        # Python dependencies
+└── README.md               # Project documentation
