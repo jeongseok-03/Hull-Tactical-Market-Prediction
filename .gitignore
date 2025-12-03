@@ -1,18 +1,10 @@
-# Data files
-*.csv
-*.xlsx
-data/*.csv
-data/*.zip
-
-# Python cache
+# .gitignore (Safety Check)
 __pycache__/
 *.pyc
-
-# IDE settings
+.ipynb_checkpoints
 .vscode/
 .idea/
-.DS_Store
-
-# Virtual Environment
+*.csv
+data/*.csv
 venv/
 env/
