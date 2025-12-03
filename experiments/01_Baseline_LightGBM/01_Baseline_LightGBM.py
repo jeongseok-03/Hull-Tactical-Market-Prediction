@@ -5,11 +5,11 @@ import lightgbm as lgb
 import warnings
 
 # --- Path Setup ---
-# 프로젝트 루트 경로 설정 (현재 파일 위치에서 두 단계 상위 폴더)
+# Set the project root path (Calculate two levels up from the current file)
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.append(PROJECT_ROOT)
 
-# src 모듈 임포트
+# Import custom modules from src
 from src.features import create_features_no_leakage
 from src.metrics import score
 
@@ -32,6 +32,7 @@ def run_baseline():
     df = pd.read_csv(DATA_PATH)
 
     # 2. Feature Engineering (Strict Mode: No Leakage)
+    # Using basic statistical features without future look-ahead
     train_df, test_df = create_features_no_leakage(df, test_size=TEST_SIZE)
 
     # 3. Model Training
@@ -49,11 +50,11 @@ def run_baseline():
     )
     model.fit(train_df[features], train_df[target])
 
-    # 4. Prediction & Strategy
+    # 4. Prediction & Strategy (Simple Logic)
+    # Strategy: If predicted return > 0, Max Leverage (2.0), else Cash (0.0)
     print(">>> Generating Predictions & Allocating Positions...")
     preds = model.predict(test_df[features])
     
-    # Strategy: Positive -> 2.0x, Negative -> 0.0x
     allocations = [2.0 if p > 0 else 0.0 for p in preds]
     
     submission = pd.DataFrame({'prediction': allocations}, index=test_df.index)
@@ -61,6 +62,7 @@ def run_baseline():
     # 5. Evaluation
     print("\n>>> Evaluating Baseline Performance...")
     try:
+        # Pass a copy to avoid modifying original dataframe
         final_score = score(test_df.copy(), submission, 'date_id')
         print(f" >>> OFFICIAL BASELINE SCORE: {final_score:.4f}")
     except Exception as e:
